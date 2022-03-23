@@ -1,0 +1,82 @@
+create table medico(
+matricula int primary key,
+departamento varchar(30),
+telefone varchar(11),
+nome varchar(220),
+cargo varchar(220)
+);
+
+create table paciente(
+id int primary key,
+telefone varchar(11),
+nome varchar(220),
+nascimento date
+);
+
+create table historico(
+id int primary key,
+entrada date,
+saida date,
+id_medico int, 
+id_paciente int
+)
+
+alter table historico add 
+constraint fk_medico
+foreign key (id_medico)
+references medico(matricula)
+
+
+alter table historico add constraint fk_paciente
+foreign key (id_paciente)
+references paciente(id);
+
+alter table medico update column departamento 
+
+
+insert into medico 
+(matricula,departamento,telefone,nome,cargo)
+values
+(1,'Enfermaria', '9115588585','Marco Antonio', 'Enfermeiro'),
+(2,'Cirurgia', '87988464300','Kaue Reimond', 'Médico cirurgião'),
+(3,'Portaria', '9115588585','Capitão Nascimento', 'Vigilante'),
+(4,'PA', '9115588585','Bruna Surfistinha', 'Fisioterapeuta'),
+(5,'Setor de Vigilância em Saúde', '9115588585','Mikael Santos', 'Infectologista')
+
+select * from medico 
+
+
+insert into paciente
+(id,telefone,nome,nascimento)
+
+values 
+(1, '11223344556', 'Raphael ', '2001-05-03'),
+(2, '11223344556', 'Eládio ', '2000-05-03'),
+(3, '11223344556', 'Elânio ', '2000-05-03')
+
+select * from paciente 
+
+
+insert into historico
+(id,entrada,saida, id_medico, id_paciente, descricao)
+values
+(1,'10/11/2021', '14/11/2021', 1, 1, 'Virose'),
+(2,'27/11/2021', '27/10/2021', 2, 2, 'Asma '),
+(3,'28/12/2021', '02/01/2022', 2, 2, 'Corona Virus '),
+(4,'25/12/2021', '28/12/2021', 1, 3, 'Dengue ')
+
+SELECT paciente AS id_paciente, COUNT(*) as internacao
+FROM paciente 
+JOIN historico 
+ON paciente.id = historico.id_paciente
+GROUP BY paciente
+order by internacao desc ;
+
+select * from paciente.id 
+
+
+
+select * from paciente p 
+inner join historico h 
+on p.id = h.id_paciente 
+order by h.id_paciente desc
